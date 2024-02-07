@@ -1,1 +1,46 @@
-[]
+- id: '1707168902772'
+  alias: office_switch_on
+  description: ''
+  trigger:
+  - alias: Office Desk Switch On Pressed Initially
+    device_id: ec67b101fb73db337152101cdfa3d798
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 1
+    unique_id: 7a88a3b7-0ccb-4223-80ce-4652a9aeac9d
+  condition: []
+  action:
+  - service: light.turn_on
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
+  mode: single
+- id: '1707169081333'
+  alias: office_switch_off
+  description: ''
+  trigger:
+  - alias: Office Desk Switch Off Pressed
+    device_id: ec67b101fb73db337152101cdfa3d798
+    domain: hue
+    platform: device
+    type: initial_press
+    subtype: 4
+    unique_id: d8496ab7-ad88-4b1b-9942-869db7f3fcc7
+  condition: []
+  action:
+  - service: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      area_id: office
+  mode: single
+- id: '1707340016296'
+  alias: Dimmer switch v1 light control
+  description: ''
+  use_blueprint:
+    path: dimmer_switch/light_control.yaml
+    input:
+      dimmer_switch_device: ec67b101fb73db337152101cdfa3d798
+      entity_targets: light.office_desk

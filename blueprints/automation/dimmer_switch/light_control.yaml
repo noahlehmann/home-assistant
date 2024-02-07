@@ -1,0 +1,97 @@
+blueprint:
+  name: Dimmer switch v1 light control
+  description: Control lights with all default functionalities of hue dimmer switch v1
+  domain: automation
+  input:
+    dimmer_switch_device:
+      name: Dimmer Switch
+      selector:
+        device:
+          filter:
+            integration: hue
+            model: Hue dimmer switch (RWL021)
+    entity_targets:
+      name: Lights
+      selector:
+        entity:
+          domain: light
+
+trigger:
+  # initial presses
+  # on
+  - id: initial_press_on
+    device_id: !input dimmer_switch_device
+    platform: device
+    type: initial_press
+    subtype: 1
+    domain: hue
+  # brighter
+  - id: initial_press_brighter
+    device_id: !input dimmer_switch_device
+    platform: device
+    type: initial_press
+    subtype: 2
+    domain: hue
+  # dimmer
+  - id: initial_press_dimmer
+    device_id: !input dimmer_switch_device
+    platform: device
+    type: initial_press
+    subtype: 3
+    domain: hue
+  # off
+  - id: initial_press_off
+    device_id: !input dimmer_switch_device
+    platform: device
+    type: initial_press
+    subtype: 4
+    domain: hue
+
+action:
+  - choose:
+      # initial presses
+      # on
+      - conditions:
+          - condition: trigger
+            id: initial_press_on
+        sequence:
+          - service: light.turn_on
+            target:
+              entity_id: !input entity_targets
+      # brighter
+      - conditions:
+          - condition: trigger
+            id: initial_press_brighter
+          - condition: numeric_state
+            entity_id: !input entity_targets
+            attribute: brightness
+            above: 0
+            below: 255
+        sequence:
+          - service: light.turn_on
+            data:
+              brightness_step_pct: 10
+            target:
+              entity_id: !input entity_targets
+      # dimmer
+      - conditions:
+          - condition: trigger
+            id: initial_press_dimmer
+          - condition: numeric_state
+            entity_id: !input entity_targets
+            attribute: brightness
+            above: 48.45 # 19% 
+        sequence:
+          - service: light.turn_on
+            data:
+              brightness_step_pct: -10
+            target:
+              entity_id: !input entity_targets
+      # off
+      - conditions:
+          - condition: trigger
+            id: initial_press_off
+        sequence:
+          - service: light.turn_off
+            target:
+              entity_id: !input entity_targets
