@@ -14,6 +14,7 @@ blueprint:
       name: Lights
       selector:
         entity:
+          multiple: true
           domain: light
 
 trigger:
@@ -80,7 +81,7 @@ action:
           - condition: numeric_state
             entity_id: !input entity_targets
             attribute: brightness
-            above: 48.45 # 19% 
+            above: 48.45 # 19%
         sequence:
           - service: light.turn_on
             data:

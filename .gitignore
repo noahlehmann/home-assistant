@@ -6,7 +6,9 @@
 !.gitignore
 !*.md
 
+!blueprints/
 !blueprints/**
+
 
 # ignore storage and meta
 .storage
