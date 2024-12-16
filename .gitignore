@@ -1,0 +1,28 @@
+# all
+*
+
+# For debugging after restore
+!.HA_VERSION
+
+!packages
+!packages/**/*
+
+!templates
+!templates/**/*
+
+!blueprints
+!blueprints/**/*
+
+# default blueprints
+blueprints/*/homeassistant/*
+
+
+!automations.yaml
+
+!configuration.yaml
+
+!scripts.yaml
+
+!README.md
+
+!.gitignore
